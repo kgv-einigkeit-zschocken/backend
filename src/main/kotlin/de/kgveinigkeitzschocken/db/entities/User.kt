@@ -19,8 +19,8 @@ object UserTable : IntIdTable("users") {
     var isAdmin: Column<Boolean> = bool("is_admin").default(false)
 }
 
-class User(id: EntityID<Int>) : IntEntity(id), Principal {
-    companion object : IntEntityClass<User>(UserTable)
+class UserEntity(id: EntityID<Int>) : IntEntity(id), Principal {
+    companion object : IntEntityClass<UserEntity>(UserTable)
 
     var firstName by UserTable.firstName
     var lastName by UserTable.lastName
@@ -28,5 +28,5 @@ class User(id: EntityID<Int>) : IntEntity(id), Principal {
     var emailAddress by UserTable.emailAddress
     var password by UserTable.password
     var dateOfBirth by UserTable.dateOfBirth
-    var isAdmin by UserTable.dateOfBirth
+    var isAdmin by UserTable.isAdmin
 }
