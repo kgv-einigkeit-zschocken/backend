@@ -2,19 +2,21 @@ package de.kgveinigkeitzschocken.db
 
 import de.kgveinigkeitzschocken.core.inject.di
 import de.kgveinigkeitzschocken.core.manager.EncryptionManager
+import de.kgveinigkeitzschocken.core.manager.LocalDateManager
 import de.kgveinigkeitzschocken.core.util.getIntEnv
 import de.kgveinigkeitzschocken.core.util.getStringEnv
-import de.kgveinigkeitzschocken.db.entities.UserEntity
-import de.kgveinigkeitzschocken.db.entities.UserTable
+import de.kgveinigkeitzschocken.db.entity.UserEntity
+import de.kgveinigkeitzschocken.db.entity.UserTable
 import io.ktor.server.application.Application
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.kodein.di.instance
-import java.time.LocalDate
+
+private val encryptionManager: EncryptionManager by di.instance()
+private val localDateManager: LocalDateManager by di.instance()
 
 fun Application.initDB() {
-    val encryptionManager: EncryptionManager by di.instance()
 
     Database.connect(
         url = getStringEnv("db.jdbcUrl"),
@@ -37,7 +39,7 @@ fun Application.initDB() {
                 password =  encryptionManager.encrypt(
                     getStringEnv("superuser.password")
                 )
-                dateOfBirth = LocalDate.of(
+                dateOfBirth = localDateManager.getLocalDate(
                     getIntEnv("superuser.dateOfBirth.year"),
                     getIntEnv("superuser.dateOfBirth.month"),
                     getIntEnv("superuser.dateOfBirth.day")

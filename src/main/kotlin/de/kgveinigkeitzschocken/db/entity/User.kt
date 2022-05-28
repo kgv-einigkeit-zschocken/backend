@@ -1,5 +1,8 @@
-package de.kgveinigkeitzschocken.db.entities
+package de.kgveinigkeitzschocken.db.entity
 
+import de.kgveinigkeitzschocken.core.inject.di
+import de.kgveinigkeitzschocken.core.manager.LocalDateManager
+import de.kgveinigkeitzschocken.core.model.User
 import io.ktor.server.auth.Principal
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -7,7 +10,11 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.javatime.date
+import org.jetbrains.exposed.sql.transactions.transaction
+import org.kodein.di.instance
 import java.time.LocalDate
+
+private val localDateManager: LocalDateManager by di.instance()
 
 object UserTable : IntIdTable("users") {
     var firstName: Column<String> = varchar("first_name", 256)
@@ -29,4 +36,35 @@ class UserEntity(id: EntityID<Int>) : IntEntity(id), Principal {
     var password by UserTable.password
     var dateOfBirth by UserTable.dateOfBirth
     var isAdmin by UserTable.isAdmin
+
+    /**
+     * Updates a user
+     *
+     * @param body The data which holds the data to update the user
+     * @return [UserEntity]
+     */
+    fun update(body: User.Body.Update): UserEntity = transaction {
+        this@UserEntity.apply {
+            body.firstName?.let {
+                this.firstName = it
+            }
+
+            body.lastName?.let {
+                this.lastName = it
+            }
+
+            body.emailAddress?.let {
+                this.emailAddress = it
+            }
+
+            body.dateOfBirth?.let {
+                this.dateOfBirth = localDateManager.getLocalDate(it)
+            }
+
+            body.firstName?.let {
+                this.firstName = it
+            }
+        }
+    }
+
 }
