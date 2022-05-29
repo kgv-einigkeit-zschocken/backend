@@ -11,6 +11,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.javatime.date
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.varPop
 import org.kodein.di.instance
 import java.time.LocalDate
 
@@ -65,6 +66,18 @@ class UserEntity(id: EntityID<Int>) : IntEntity(id), Principal {
                 this.firstName = it
             }
         }
+    }
+
+    fun getResponse(): User.Response {
+        return User.Response(
+            id = this.id.value,
+            firstName = firstName,
+            lastName = lastName,
+            username = username,
+            emailAddress = emailAddress,
+            dateOfBirth = dateManager.getTimestamp(dateOfBirth),
+            isAdmin = isAdmin
+        )
     }
 
 }

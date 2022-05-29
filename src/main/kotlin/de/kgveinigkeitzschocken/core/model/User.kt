@@ -58,6 +58,9 @@ class User {
 
     @Serializable
     data class Response(
+        @SerialName("id")
+        val id: Int,
+
         @SerialName("first_name")
         val firstName: String,
 

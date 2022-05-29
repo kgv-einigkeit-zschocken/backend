@@ -3,6 +3,7 @@ package de.kgveinigkeitzschocken.core.manager
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.ZoneOffset
 
 class DateManager {
 
@@ -29,6 +30,10 @@ class DateManager {
      */
     fun getLocalDate(year: Int, month: Int, dayOfMonth: Int): LocalDate {
         return LocalDate.of(year, month, dayOfMonth)
+    }
+
+    fun getTimestamp(date: LocalDate): Long {
+        return date.atStartOfDay().toEpochSecond(ZoneOffset.UTC)
     }
 
 }
