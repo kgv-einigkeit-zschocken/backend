@@ -45,27 +45,23 @@ class UserEntity(id: EntityID<Int>) : IntEntity(id), Principal {
      * @return [UserEntity]
      */
     fun update(body: User.Body.Update): UserEntity = transaction {
-        this@UserEntity.apply {
-            body.firstName?.let {
-                this.firstName = it
-            }
-
-            body.lastName?.let {
-                this.lastName = it
-            }
-
-            body.emailAddress?.let {
-                this.emailAddress = emailAddress
-            }
-
-            body.dateOfBirth?.let {
-                this.dateOfBirth = dateManager.getLocalDate(it)
-            }
-
-            body.firstName?.let {
-                this.firstName = it
-            }
+        body.firstName?.let {
+            this@UserEntity.firstName = it
         }
+
+        body.lastName?.let {
+            this@UserEntity.lastName = it
+        }
+
+        body.emailAddress?.let {
+            this@UserEntity.emailAddress = it
+        }
+
+        body.dateOfBirth?.let {
+            this@UserEntity.dateOfBirth = dateManager.getLocalDate(it)
+        }
+
+        this@UserEntity
     }
 
     fun getResponse(): User.Response {

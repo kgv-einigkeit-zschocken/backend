@@ -16,7 +16,7 @@ import org.kodein.di.instance
 private val encryptionManager: EncryptionManager by di.instance()
 private val dateManager: DateManager by di.instance()
 
-fun Application.initDB() {
+fun Application.configureDatabase() {
 
     Database.connect(
         url = getStringEnv("db.jdbcUrl"),

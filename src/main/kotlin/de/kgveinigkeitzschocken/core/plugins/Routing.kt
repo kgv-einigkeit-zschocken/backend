@@ -1,11 +1,12 @@
-package de.kgveinigkeitzschocken.api
+package de.kgveinigkeitzschocken.core.plugins
 
 import de.kgveinigkeitzschocken.api.userRouting
 import io.ktor.server.routing.*
 import io.ktor.server.application.*
 import io.ktor.server.response.respond
 
-fun Application.initRouting() {
+fun Application.configureRouting() {
+    install(Routing)
 
     routing {
         route("/api") {

@@ -1,7 +1,11 @@
 package de.kgveinigkeitzschocken.core.util
 
 import de.kgveinigkeitzschocken.core.exceptions.InitializationException
+import de.kgveinigkeitzschocken.core.model.ApiError
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
+import io.ktor.server.application.ApplicationCall
+import io.ktor.server.response.respond
 
 /**
  * Returns a environment variable for a specific key
@@ -34,4 +38,14 @@ fun Application.getIntEnv(key: String): Int {
     } catch (e: java.lang.NumberFormatException) {
         throw InitializationException("Environment variable for key $key is invalid: Expected int.")
     }
+}
+
+suspend fun ApplicationCall.error(errorCode: String, statusCode: HttpStatusCode = HttpStatusCode.BadRequest) {
+    respond(
+        statusCode,
+        ApiError.General(
+            statusCode = statusCode.value,
+            errorCode = errorCode
+        )
+    )
 }

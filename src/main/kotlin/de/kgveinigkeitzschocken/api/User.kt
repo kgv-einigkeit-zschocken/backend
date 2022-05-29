@@ -1,6 +1,9 @@
 package de.kgveinigkeitzschocken.api
 
 import de.kgveinigkeitzschocken.core.inject.di
+import de.kgveinigkeitzschocken.core.model.ApiError
+import de.kgveinigkeitzschocken.core.model.User
+import de.kgveinigkeitzschocken.core.util.error
 import de.kgveinigkeitzschocken.db.entity.UserEntity
 import de.kgveinigkeitzschocken.db.service.UserService
 import io.ktor.http.HttpStatusCode
@@ -15,6 +18,7 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.Routing
 import kotlinx.serialization.Serializable
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.kodein.di.instance
 
 fun Route.userRouting() {
@@ -49,10 +53,11 @@ fun Route.userRouting() {
     }
 
     delete<Users.Id> { endpoint ->
-        call.respond(
-            HttpStatusCode.NoContent,
+        transaction {
             userService.findByID(endpoint.id).delete()
-        )
+        }
+
+        call.respond(HttpStatusCode.NoContent)
     }
 
 }
