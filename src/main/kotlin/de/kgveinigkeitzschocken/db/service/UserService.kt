@@ -28,7 +28,7 @@ class UserService {
      * @throws [EntityNotFoundException] if no user has been found for the passed user ID
      */
     @Throws(EntityNotFoundException::class)
-    fun findUserByID(userID: Int): UserEntity = transaction {
+    fun findByID(userID: Int): UserEntity = transaction {
         UserEntity.findById(userID) ?: throw EntityNotFoundException()
     }
 

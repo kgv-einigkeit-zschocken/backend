@@ -5,9 +5,11 @@ import io.ktor.server.application.*
 import io.ktor.server.response.respond
 
 fun Application.initRouting() {
+
     routing {
         get("/") {
-            call.respond("Hello, world chicks!")
+            call.respond("Hello, world!")
         }
     }
+
 }

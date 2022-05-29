@@ -1,7 +1,7 @@
 package de.kgveinigkeitzschocken.db.entity
 
 import de.kgveinigkeitzschocken.core.inject.di
-import de.kgveinigkeitzschocken.core.manager.LocalDateManager
+import de.kgveinigkeitzschocken.core.manager.DateManager
 import de.kgveinigkeitzschocken.core.model.User
 import io.ktor.server.auth.Principal
 import org.jetbrains.exposed.dao.IntEntity
@@ -14,7 +14,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.kodein.di.instance
 import java.time.LocalDate
 
-private val localDateManager: LocalDateManager by di.instance()
+private val dateManager: DateManager by di.instance()
 
 object UserTable : IntIdTable("users") {
     var firstName: Column<String> = varchar("first_name", 256)
@@ -54,11 +54,11 @@ class UserEntity(id: EntityID<Int>) : IntEntity(id), Principal {
             }
 
             body.emailAddress?.let {
-                this.emailAddress = it
+                this.emailAddress = emailAddress
             }
 
             body.dateOfBirth?.let {
-                this.dateOfBirth = localDateManager.getLocalDate(it)
+                this.dateOfBirth = dateManager.getLocalDate(it)
             }
 
             body.firstName?.let {

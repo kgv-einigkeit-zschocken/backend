@@ -2,7 +2,7 @@ package de.kgveinigkeitzschocken.db
 
 import de.kgveinigkeitzschocken.core.inject.di
 import de.kgveinigkeitzschocken.core.manager.EncryptionManager
-import de.kgveinigkeitzschocken.core.manager.LocalDateManager
+import de.kgveinigkeitzschocken.core.manager.DateManager
 import de.kgveinigkeitzschocken.core.util.getIntEnv
 import de.kgveinigkeitzschocken.core.util.getStringEnv
 import de.kgveinigkeitzschocken.db.entity.UserEntity
@@ -14,7 +14,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.kodein.di.instance
 
 private val encryptionManager: EncryptionManager by di.instance()
-private val localDateManager: LocalDateManager by di.instance()
+private val dateManager: DateManager by di.instance()
 
 fun Application.initDB() {
 
@@ -39,7 +39,7 @@ fun Application.initDB() {
                 password =  encryptionManager.encrypt(
                     getStringEnv("superuser.password")
                 )
-                dateOfBirth = localDateManager.getLocalDate(
+                dateOfBirth = dateManager.getLocalDate(
                     getIntEnv("superuser.dateOfBirth.year"),
                     getIntEnv("superuser.dateOfBirth.month"),
                     getIntEnv("superuser.dateOfBirth.day")

@@ -27,27 +27,47 @@ repositories {
 }
 
 dependencies {
+    // Ktor core
     implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-call-logging-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-host-common-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-status-pages-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-locations-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-sessions-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-server-auth:$ktorVersion")
-    implementation("io.ktor:ktor-server-auth-jwt:$ktorVersion")
-    implementation("ch.qos.logback:logback-classic:$logbackVersion")
+
+
+    // Ktor utilities
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-status-pages-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-server-sessions-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-resources-jvm:$ktorVersion")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
 
+    // Authentication
+    implementation("io.ktor:ktor-server-auth:$ktorVersion")
+    implementation("io.ktor:ktor-server-auth-jwt:$ktorVersion")
+
+    // Logging
+    implementation("io.ktor:ktor-server-call-logging-jvm:$ktorVersion")
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
+
+    // Exposed - Database abstraction layer
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-dao:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
 
+    // Postgres - Database
     implementation("org.postgresql:postgresql:$postgresqlVersion")
+
+    // BCrypt - Password hashing
     implementation("at.favre.lib:bcrypt:$bcryptVersion")
+
+    // Kodein - Dependency Injection
     implementation("org.kodein.di:kodein-di:$kodeinVersion")
+
+    // Konform - Validation
     implementation("io.konform:konform-jvm:$konformVersion")
+
+    // Testing
+    testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
 }
